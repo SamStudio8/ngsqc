@@ -138,6 +138,7 @@ for i in reversed(np.average(importance_scores, axis=0).argsort()):
         print "[PARM] %d\t%.4f\t%.4f\t%s" % (
                 parameter_union[i],
                 np.average(importance_scores, axis=0)[i],
+                # TODO Is it safe to do variance pooling?
                 np.average(importance_scores_stdev, axis=0)[i],
                 all_parameters[i]
         )
