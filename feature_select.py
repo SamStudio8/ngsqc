@@ -33,9 +33,9 @@ CLASSES = {
     },
 }
 
-DATA_DIR = "/store/sanger/ngsqc/bamcheck/bamcheck_2013dec25_ratios_out-100/"
+DATA_DIR = "/store/sanger/ngsqc/bamcheck/bamcheck_2013dec25_ratios_out-1000/"
 TARGET_PATH = "/store/sanger/ngsqc/bamcheck/crohns-uc-table-a.2013dec25.manual_qc_update.txt"
-NUM_FOLDS = 5
+NUM_FOLDS = 10
 PROP_VALIDATION = 0.1 # 10%
 
 def validate_data_set(data_set):
@@ -117,14 +117,13 @@ while sum(param_mask) >= 5:
         if mask == 0:
             continue
         averages[n_col] = np.average(scores[n_col])
-    min_avg = np.min(averages[np.nonzero(averages)])
-    print min_avg
+    max_avg = np.max(averages)
+    print max_avg
 
     for n_col, mask in enumerate(param_mask):
         if mask == 0:
             continue
-        if averages[n_col] <= min_avg:
-            print averages[n_col]
+        if averages[n_col] >= max_avg:
             param_mask[n_col] = 0
             print "[ ][  ] Pruned parameter %s" % all_parameters[n_col]
 
