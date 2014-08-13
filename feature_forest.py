@@ -9,6 +9,7 @@ __maintainer__ = "Sam Nicholls <sam@samnicholls.net>"
 import sys
 
 import numpy as np
+import matplotlib.pyplot as plt
 
 from frontier import frontier
 from frontier.IO.BamcheckReader import BamcheckReader
@@ -74,6 +75,20 @@ def setup():
 def iterate():
     pass
 
+def plot_tree(pdf_filename, clf):
+    try:
+        import pydot
+    except ImportError, e:
+        print("Please install 'pydot', it will require Graphviz.")
+        sys.exit(1)
+
+    from sklearn.externals.six import StringIO
+
+    dot_data = StringIO()
+    export_graphviz(clf, out_file=dot_data)
+    graph = pydot.graph_from_dot_data(dot_data.getvalue())
+    graph.write_pdf(pdf_filename)
+
 statplexer = setup()
 all_parameters = statplexer.list_parameters()
 data, target, levels = statplexer.get_data_by_target(all_parameters, USE_TARGETS)
@@ -118,28 +133,37 @@ for n_fold, indexer in enumerate(fold_indexes):
     importance_scores_stdev[n_fold] = np.std([tree.feature_importances_ for tree in clf.estimators_], axis=0)
 
     param_mask = np.zeros(len(all_parameters), dtype=int)
+    print "\n[    ] µImp.\tσp.Imp.\tName"
     for i in reversed(importance_scores[n_fold].argsort()[-NUM_PARAMETERS:]):
         param_mask[i] = 1
         parameter_union[i] += 1
-        print "[PARM] %s" % all_parameters[i]
+        print "[PARM] %.4f\t%.4f\t%s" % (
+                importance_scores[n_fold][i],
+                importance_scores_stdev[n_fold][i],
+                all_parameters[i]
+        )
 
     clf_t = DecisionTreeClassifier()
     print "[TREE] Fitting Tree#%d" % (n_fold + 1)
-    clf_t.fit(Xf_train[:, param_mask], yf_train)
-    tree_cv_scores[n_fold] = clf_t.score(Xf_test[:, param_mask], yf_test)
+    param_index_list = np.where(param_mask > 0)[0]
+    clf_t.fit(Xf_train[:, param_index_list], yf_train)
+    tree_cv_scores[n_fold] = clf_t.score(Xf_test[:, param_index_list], yf_test)
     print "[TREE] CV %.2f" % tree_cv_scores[n_fold]
 
 print "\n[ENSM] Average Single Tree CV %.2f" % np.average(tree_cv_scores)
 
 print "\n[    ] #Used\tµImp.\tσp.Imp.\tName"
-for i in reversed(np.average(importance_scores, axis=0).argsort()):
+importance_indices = (np.average(importance_scores, axis=0).argsort())[::-1]
+importance_averages = np.average(importance_scores, axis=0)
+importance_std_devs = np.average(importance_scores_stdev, axis=0)
+for i in importance_indices:
     mask = parameter_union[i]
     if mask > 0:
         print "[PARM] %d\t%.4f\t%.4f\t%s" % (
                 parameter_union[i],
-                np.average(importance_scores, axis=0)[i],
+                importance_averages[i],
                 # TODO Is it safe to do variance pooling?
-                np.average(importance_scores_stdev, axis=0)[i],
+                importance_std_devs[i],
                 all_parameters[i]
         )
 print "[    ] Sorted on Average Importance (µImp)."
@@ -149,5 +173,7 @@ print "[    ] Sorted on Average Importance (µImp)."
 # the withheld data set.
 clf_t = DecisionTreeClassifier()
 print "\n[TREE] Fit parameter union tree"
-clf_t.fit(X_train[:, parameter_union], y_train)
-print "[TREE] CV %.2f" % clf_t.score(X_test[:, parameter_union], y_test)
+param_index_list = np.where(parameter_union > 0)[0]
+clf_t.fit(X_train[:, param_index_list], y_train)
+print "[TREE] CV %.2f" % clf_t.score(X_test[:, param_index_list], y_test)
+
