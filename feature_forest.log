@@ -1,0 +1,173 @@
+/store/sanger/ngsqc/bamcheck/bamcheck_2013dec25_ratios_out/(13455 files)
+[WARN] bases-trimmed parameter has NIL variance (with mean 0.00)
+[WARN] filtered-sequences parameter has NIL variance (with mean 0.00)
+[WARN] is-paired parameter has NIL variance (with mean 1.00)
+[WARN] is-sorted parameter has NIL variance (with mean 1.00)
+[WARN] maximum-length parameter has NIL variance (with mean 100.00)
+[WARN] non-primary-alignments parameter has NIL variance (with mean 0.00)
+[WARN] quality-dropoff-high-iqr-threshold parameter has NIL variance (with mean 10.00)
+[WARN] quality-dropoff-ignore-edge-cycles parameter has NIL variance (with mean 3.00)
+[WARN] quality-dropoff-runmed-k parameter has NIL variance (with mean 25.00)
+[DATA] 10696 samples
+[DATA] [-1, 1] levels
+[DATA] Samples by Level [('fail', 1542), ('pass', 9154), ('warn', 0)]
+
+[FRST] Constructing Forest#1
+[PARM] rev-percent-insertions-above-baseline
+[PARM] error-rate
+[PARM] quality-dropoff-rev-mean-runmed-decline-low-value
+[PARM] max-max-baseline-deviation
+[PARM] quality-dropoff-fwd-mean-runmed-decline-low-value
+[PARM] fwd-percent-insertions-above-baseline
+[PARM] T-percent-max-baseline-deviation
+[PARM] bases-duplicated
+[PARM] T-percent-total-mean-baseline-deviation
+[PARM] duplicate-mapped-ratio
+[TREE] Fitting Tree#1
+[TREE] CV 0.82
+
+[FRST] Constructing Forest#2
+[PARM] error-rate
+[PARM] rev-percent-insertions-above-baseline
+[PARM] quality-dropoff-rev-mean-runmed-decline-low-value
+[PARM] max-max-baseline-deviation
+[PARM] fwd-percent-insertions-above-baseline
+[PARM] quality-dropoff-fwd-mean-runmed-decline-low-value
+[PARM] T-percent-max-baseline-deviation
+[PARM] bases-duplicated
+[PARM] T-percent-total-mean-baseline-deviation
+[PARM] duplicate-mapped-ratio
+[TREE] Fitting Tree#2
+[TREE] CV 0.83
+
+[FRST] Constructing Forest#3
+[PARM] rev-percent-insertions-above-baseline
+[PARM] error-rate
+[PARM] quality-dropoff-rev-mean-runmed-decline-low-value
+[PARM] max-max-baseline-deviation
+[PARM] fwd-percent-insertions-above-baseline
+[PARM] T-percent-max-baseline-deviation
+[PARM] bases-duplicated
+[PARM] duplicate-mapped-ratio
+[PARM] quality-dropoff-fwd-mean-runmed-decline-low-value
+[PARM] reads-duplicated
+[TREE] Fitting Tree#3
+[TREE] CV 0.81
+
+[FRST] Constructing Forest#4
+[PARM] error-rate
+[PARM] rev-percent-insertions-above-baseline
+[PARM] quality-dropoff-rev-mean-runmed-decline-low-value
+[PARM] max-max-baseline-deviation
+[PARM] fwd-percent-insertions-above-baseline
+[PARM] T-percent-max-baseline-deviation
+[PARM] quality-dropoff-fwd-mean-runmed-decline-low-value
+[PARM] bases-duplicated
+[PARM] T-percent-total-mean-baseline-deviation
+[PARM] duplicate-mapped-ratio
+[TREE] Fitting Tree#4
+[TREE] CV 0.81
+
+[FRST] Constructing Forest#5
+[PARM] rev-percent-insertions-above-baseline
+[PARM] error-rate
+[PARM] quality-dropoff-rev-mean-runmed-decline-low-value
+[PARM] max-max-baseline-deviation
+[PARM] fwd-percent-insertions-above-baseline
+[PARM] quality-dropoff-fwd-mean-runmed-decline-low-value
+[PARM] T-percent-max-baseline-deviation
+[PARM] duplicate-mapped-ratio
+[PARM] bases-duplicated
+[PARM] reads-duplicated
+[TREE] Fitting Tree#5
+[TREE] CV 0.80
+
+[FRST] Constructing Forest#6
+[PARM] error-rate
+[PARM] rev-percent-insertions-above-baseline
+[PARM] quality-dropoff-rev-mean-runmed-decline-low-value
+[PARM] max-max-baseline-deviation
+[PARM] fwd-percent-insertions-above-baseline
+[PARM] T-percent-max-baseline-deviation
+[PARM] quality-dropoff-fwd-mean-runmed-decline-low-value
+[PARM] duplicate-mapped-ratio
+[PARM] bases-duplicated
+[PARM] T-percent-total-mean-baseline-deviation
+[TREE] Fitting Tree#6
+[TREE] CV 0.80
+
+[FRST] Constructing Forest#7
+[PARM] error-rate
+[PARM] rev-percent-insertions-above-baseline
+[PARM] quality-dropoff-rev-mean-runmed-decline-low-value
+[PARM] max-max-baseline-deviation
+[PARM] fwd-percent-insertions-above-baseline
+[PARM] T-percent-max-baseline-deviation
+[PARM] quality-dropoff-fwd-mean-runmed-decline-low-value
+[PARM] T-percent-total-mean-baseline-deviation
+[PARM] bases-duplicated
+[PARM] T-percent-max-above-baseline
+[TREE] Fitting Tree#7
+[TREE] CV 0.82
+
+[FRST] Constructing Forest#8
+[PARM] rev-percent-insertions-above-baseline
+[PARM] error-rate
+[PARM] max-max-baseline-deviation
+[PARM] quality-dropoff-rev-mean-runmed-decline-low-value
+[PARM] fwd-percent-insertions-above-baseline
+[PARM] T-percent-max-baseline-deviation
+[PARM] quality-dropoff-fwd-mean-runmed-decline-low-value
+[PARM] bases-duplicated
+[PARM] duplicate-mapped-ratio
+[PARM] T-percent-max-above-baseline
+[TREE] Fitting Tree#8
+[TREE] CV 0.82
+
+[FRST] Constructing Forest#9
+[PARM] rev-percent-insertions-above-baseline
+[PARM] error-rate
+[PARM] quality-dropoff-rev-mean-runmed-decline-low-value
+[PARM] max-max-baseline-deviation
+[PARM] fwd-percent-insertions-above-baseline
+[PARM] quality-dropoff-fwd-mean-runmed-decline-low-value
+[PARM] T-percent-max-baseline-deviation
+[PARM] T-percent-total-mean-baseline-deviation
+[PARM] bases-duplicated
+[PARM] duplicate-mapped-ratio
+[TREE] Fitting Tree#9
+[TREE] CV 0.79
+
+[FRST] Constructing Forest#10
+[PARM] rev-percent-insertions-above-baseline
+[PARM] error-rate
+[PARM] quality-dropoff-rev-mean-runmed-decline-low-value
+[PARM] max-max-baseline-deviation
+[PARM] fwd-percent-insertions-above-baseline
+[PARM] T-percent-max-baseline-deviation
+[PARM] quality-dropoff-fwd-mean-runmed-decline-low-value
+[PARM] bases-duplicated
+[PARM] T-percent-total-mean-baseline-deviation
+[PARM] reads-duplicated
+[TREE] Fitting Tree#10
+[TREE] CV 0.81
+
+[ENSM] Average Single Tree CV 0.81
+
+[    ] #Used	µImp.	σp.Imp.	Name
+[PARM] 10	0.0877	0.1076	rev-percent-insertions-above-baseline
+[PARM] 10	0.0876	0.1329	error-rate
+[PARM] 10	0.0655	0.0839	quality-dropoff-rev-mean-runmed-decline-low-value
+[PARM] 10	0.0615	0.1282	max-max-baseline-deviation
+[PARM] 10	0.0503	0.0749	fwd-percent-insertions-above-baseline
+[PARM] 10	0.0457	0.1078	T-percent-max-baseline-deviation
+[PARM] 10	0.0441	0.0582	quality-dropoff-fwd-mean-runmed-decline-low-value
+[PARM] 10	0.0411	0.0533	bases-duplicated
+[PARM] 8	0.0385	0.0514	duplicate-mapped-ratio
+[PARM] 7	0.0382	0.0944	T-percent-total-mean-baseline-deviation
+[PARM] 3	0.0363	0.0515	reads-duplicated
+[PARM] 2	0.0350	0.0925	T-percent-max-above-baseline
+[    ] Sorted on Average Importance (µImp).
+
+[TREE] Fit parameter union tree
+[TREE] CV 0.91

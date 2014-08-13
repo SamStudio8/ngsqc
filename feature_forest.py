@@ -36,7 +36,7 @@ CLASSES = {
     },
 }
 
-DATA_DIR = "/store/sanger/ngsqc/bamcheck/bamcheck_2013dec25_ratios_out-100/"
+DATA_DIR = "/store/sanger/ngsqc/bamcheck/bamcheck_2013dec25_ratios_out/"
 TARGET_PATH = "/store/sanger/ngsqc/bamcheck/crohns-uc-table-a.2013dec25.manual_qc_update.txt"
 NUM_FOLDS = 10
 PROP_VALIDATION = 0.1 #10%
