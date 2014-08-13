@@ -78,24 +78,29 @@ for train_index, test_index in sss:
     X_train, X_test = data[train_index], data[test_index]
     y_train, y_test = target[train_index], target[test_index]
 
+# Initialise folds on remaining data and store fold indexes for use later
+kf = StratifiedKFold(y_train, n_folds=NUM_FOLDS)
+fold_indexes = []
+for train_index, test_index in kf:
+    fold_indexes.append({
+            "train_index": train_index,
+            "test_index": test_index
+    })
+
 # While there are some number of parameters, conduct folding and elimination
 param_mask = np.ones(len(all_parameters), dtype=int)
 while sum(param_mask) >= 5:
-    # Initialise classifier and CV folding on remaining data
-    kf = StratifiedKFold(y_train, n_folds=NUM_FOLDS)
 
     # Iterate over folds
     scores = np.zeros([len(all_parameters), NUM_FOLDS])
-    n_fold = 0
-    for train_index, test_index in kf:
-        Xf_train, Xf_test = X_train[train_index], X_train[test_index]
-        yf_train, yf_test = y_train[train_index], y_train[test_index]
+    for n_fold, indexer in enumerate(fold_indexes):
+        Xf_train, Xf_test = X_train[indexer["train_index"]], X_train[indexer["test_index"]]
+        yf_train, yf_test = y_train[indexer["train_index"]], y_train[indexer["test_index"]]
 
         # Ignore a parameter each time
         for n_col, mask in enumerate(param_mask):
             if mask == 0:
                 continue
-
 
             # Fit and score
             print "[%d][%d] Fitting and Scoring..." % (n_fold + 1, n_col + 1)
