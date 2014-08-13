@@ -89,6 +89,7 @@ for train_index, test_index in kf:
 
 # While there are some number of parameters, conduct folding and elimination
 param_mask = np.ones(len(all_parameters), dtype=int)
+last_cv = 0.0
 while sum(param_mask) >= 5:
 
     # Iterate over folds
@@ -106,8 +107,9 @@ while sum(param_mask) >= 5:
             print "[%d][%d] Fitting and Scoring..." % (n_fold + 1, n_col + 1)
             param_mask[n_col] = 0
             clf = DecisionTreeClassifier()
-            clf.fit(Xf_train[:, param_mask], yf_train)
-            scores[n_col][n_fold] = clf.score(Xf_test[:, param_mask], yf_test)
+            param_index_list = np.where(param_mask > 0)[0]
+            clf.fit(Xf_train[:, param_index_list], yf_train)
+            scores[n_col][n_fold] = clf.score(Xf_test[:, param_index_list], yf_test)
             param_mask[n_col] = 1
 
         n_fold += 1
@@ -126,9 +128,16 @@ while sum(param_mask) >= 5:
         if averages[n_col] >= max_avg:
             param_mask[n_col] = 0
             print "[ ][  ] Pruned parameter %s" % all_parameters[n_col]
+            print "[ ][  ] Average CV moved from %.2f to %.2f" % (last_cv, max_avg)
 
+    last_cv = max_avg
+
+for n_col, mask in enumerate(param_mask):
+    if mask > 0:
+        print "[ ][  ] Maintained parameter %s" % all_parameters[n_col]
 
 # Now validate against withheld validation set
 clf = DecisionTreeClassifier()
-clf.fit(X_train[:, param_mask], y_train)
-print clf.score(X_test, y_test)
+param_index_list = np.where(param_mask > 0)[0]
+clf.fit(X_train[:, param_index_list], y_train)
+print clf.score(X_test[:, param_index_list], y_test)
