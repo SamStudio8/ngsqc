@@ -19,9 +19,13 @@ NGSQC Pipeline
     $ wc -l crohns.samples.sorted.txt
     2923 crohns.samples.sorted.txt # Number of human samples
 
+## Query iRODS for location of chosen samples
+
+    $ sed 's,\(.*\)\.goldilocks\.bam,/humgen/projects/crohns/20130909/\1,' crohns.samples.sorted.txt > crohns.samples.sorted.irods.txt
+
 ## Extraction from iRODS
 
-    $ bsub -G hgi -J "samirods[1-2923]%50" -q small -o /lustre/scratch113/teams/hgi/goldilocks/joblog/%J.%I.o -e /lustre/scratch113/teams/hgi/goldilocks/joblog/%J.%I.e bash -c 'file=$(awk NR==$LSB_JOBINDEX /lustre/scratch113/teams/hgi/autoqc_ml/crohns/crohns.samples.sorted.txt) && echo "samtools_irods for ${file}" && /software/solexa/bin/samtools_irods view -bh irods: ${file} 3:46000001-47000000 > $(basename ${file}).goldilocks.bam && rm $(basename ${file}).bai'
+    $ bsub -G hgi -J "samirods[1-2923]%50" -q small -o /lustre/scratch113/teams/hgi/goldilocks/joblog/%J.%I.o -e /lustre/scratch113/teams/hgi/goldilocks/joblog/%J.%I.e bash -c 'file=$(awk NR==$LSB_JOBINDEX /lustre/scratch113/teams/hgi/autoqc_ml/crohns/crohns.samples.sorted.irods.txt) && echo "samtools_irods for ${file}" && /software/solexa/bin/samtools_irods view -bh irods: ${file} 3:46000001-47000000 > $(basename ${file}).goldilocks.bam && rm $(basename ${file}).bai'
 
 ## Check list against directory of extracted data
 
