@@ -1,27 +1,78 @@
 NGSQC Pipeline
 ==============
 
-## Count total lanelets for each study
+## Count totals for each study
+
+    ### Lanelets
 
     $ ls crohns/ | grep "bamcheck\$" | wc -l
     9508
     $ ls uc/ | grep "bamcheck\$" | wc -l
     3947
+    ==============
+    13455 lanelets
+
+    ### Samples (as process below)
+
+    $ wc -l crohns.samples.sorted.txt
+    2932
+    $ wc -l uc.samples.sorted.txt
+    1992
+    ============
+    4924 samples
 
 ## Extract list of target BAM files (currently targeting crohns)
 
     $ awk '$3 == "crohns" { print $2 }' crohns-uc-table-a.2013dec25.manual_qc_update.txt > crohns.samples.txt
     $ sed -i 's/$/.bam.goldilocks.bam/' crohns.samples.txt
     $ wc -l crohns.samples.txt
-    9508 crohns.samples.txt # Number of lanelets
+    9508 crohns.samples.txt
 
     $ sort -u crohns.samples.txt > crohns.samples.sorted.txt
     $ wc -l crohns.samples.sorted.txt
-    2923 crohns.samples.sorted.txt # Number of human samples
+    2923 crohns.samples.sorted.txt
 
-## Query iRODS for location of chosen samples
+## Query iRODS for chosen samples
 
-    $ sed 's,\(.*\)\.goldilocks\.bam,/humgen/projects/crohns/20130909/\1,' crohns.samples.sorted.txt > crohns.samples.sorted.irods.txt
+    Acquire kerberos token
+
+    $ kinit
+
+    # List iRODS contents
+
+    $ /software/irods/icommands/bin/ils /humgen/projects/crohns/20130909 | grep -v "bai$" > crohns20130909.ils
+    $ /software/irods/icommands/bin/ils /humgen/projects/crohns/20131023 | grep -v "bai$" > crohns20131023.ils
+
+    # Remove header and characters trailing sample name, then sort
+
+    $ sed '1d; s/\s*\(.*\)\..*$/\1/' crohns20130909.ils > crohns20130909-samples.ils
+    $ sed '1d; s/\s*\(.*\)\..*$/\1/' crohns20131023.ils > crohns20131023-samples.ils
+    $ sort -u crohns20131023-samples.ils > crohns20130909-samples-sorted.ils
+    $ sort -u crohns20131023-samples.ils > crohns20131023-samples-sorted.ils
+
+    $ wc -l crohns20131023-samples-sorted.ils
+    2697 crohns20131023-samples-sorted.ils
+    $ wc -l crohns20130909-samples-sorted.ils
+    1817 crohns20130909-samples-sorted.ils
+    ============
+    4514 samples
+
+
+    Confirm samples are unique to one release
+
+    $ comm -12 crohns20131023-samples-sorted.ils crohns20130909-samples-sorted.ils | wc -l
+    0
+
+    Discover that each release happens to relate to one study after all...
+
+    $ comm -12 crohns20130909-samples-sorted.ils crohns.samples.sorted.name-only.txt | wc -l
+    0
+    $ comm -12 crohns20131023-samples-sorted.ils uc.samples.sorted.name-only.txt | wc -l
+    0
+
+    Identify crohns-only BAM files missing from iRODS storage
+    $ comm -13 crohns20131023-samples-sorted.ils crohns.samples.sorted.name-only.txt | wc -l
+    226
 
 ## Extraction from iRODS
 
