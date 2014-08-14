@@ -3,7 +3,7 @@ NGSQC Pipeline
 
 ## Count totals for each study
 
-    ### Lanelets
+### Lanelets
 
     $ ls crohns/ | grep "bamcheck\$" | wc -l
     9508
@@ -12,7 +12,7 @@ NGSQC Pipeline
     ==============
     13455 lanelets
 
-    ### Samples (as process below)
+### Samples (as process below)
 
     $ wc -l crohns.samples.sorted.txt
     2932
@@ -34,16 +34,16 @@ NGSQC Pipeline
 
 ## Query iRODS for chosen samples
 
-    Acquire kerberos token
+### Acquire kerberos token
 
     $ kinit
 
-    # List iRODS contents
+### List iRODS contents
 
     $ /software/irods/icommands/bin/ils /humgen/projects/crohns/20130909 | grep -v "bai$" > crohns20130909.ils
     $ /software/irods/icommands/bin/ils /humgen/projects/crohns/20131023 | grep -v "bai$" > crohns20131023.ils
 
-    # Remove header and characters trailing sample name, then sort
+### Remove header and characters trailing sample name, then sort
 
     $ sed '1d; s/\s*\(.*\)\..*$/\1/' crohns20130909.ils > crohns20130909-samples.ils
     $ sed '1d; s/\s*\(.*\)\..*$/\1/' crohns20131023.ils > crohns20131023-samples.ils
@@ -58,19 +58,19 @@ NGSQC Pipeline
     4514 samples
 
 
-    Confirm samples are unique to one release
+### Confirm samples are unique to one release
 
     $ comm -12 crohns20131023-samples-sorted.ils crohns20130909-samples-sorted.ils | wc -l
     0
 
-    Discover that each release happens to relate to one study after all...
+### Discover that each release happens to relate to one study after all...
 
     $ comm -12 crohns20130909-samples-sorted.ils crohns.samples.sorted.name-only.txt | wc -l
     0
     $ comm -12 crohns20131023-samples-sorted.ils uc.samples.sorted.name-only.txt | wc -l
     0
 
-    Identify crohns-only BAM files missing from iRODS storage
+### Identify crohns-only BAM files missing from iRODS storage
     $ comm -13 crohns20131023-samples-sorted.ils crohns.samples.sorted.name-only.txt | wc -l
     226
 
