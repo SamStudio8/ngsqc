@@ -15,23 +15,7 @@ from frontier.IO.AQCReader import AQCReader
 from sklearn.cross_validation import StratifiedKFold, StratifiedShuffleSplit
 from sklearn.tree import DecisionTreeClassifier
 
-CLASSES = {
-    "pass": {
-        "class": ["pass"],
-        "names": ["pass", "passed"],
-        "code": 1,
-    },
-    "fail": {
-        "class": ["fail"],
-        "names": ["fail", "failed"],
-        "code": -1,
-    },
-    "warn": {
-        "class": ["warn"],
-        "names": ["warn", "warning"],
-        "code": 0,
-    },
-}
+from problem_def import CLASSES, NO_VARIANCE, RAW_COUNTS
 
 DATA_DIR = "/store/sanger/ngsqc/bamcheck/bamcheck_2013dec25_ratios_out-1000/"
 TARGET_PATH = "/store/sanger/ngsqc/bamcheck/crohns-uc-table-a.2013dec25.manual_qc_update.txt"
@@ -69,7 +53,7 @@ def iterate():
 
 # Setup structures
 statplexer = setup()
-all_parameters = statplexer.list_parameters()
+all_parameters = statplexer.exclude_parameters(NO_VARIANCE + RAW_COUNTS)
 data, target, levels = statplexer.get_data_by_target(all_parameters, None)
 
 # Withhold 10% (stratify)

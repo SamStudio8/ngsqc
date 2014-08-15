@@ -32,6 +32,39 @@ NGSQC Pipeline
     $ wc -l crohns.samples.sorted.txt
     2923 crohns.samples.sorted.txt
 
+## Extract list of iCHIP samples from VCF files (currently targeting crohns-ichip)
+
+#### Extract VCF header and add newline delimiters between EGANS
+    Note this will also extract other unwanted column headers prior to any EGAN IDs but does not pose an issue
+
+    $ awk 'NR==29' cd.ichip.vcf | sed 's,\s\+,\n,g' > cd-ichip-egan.ls
+    $ wc -l cd-ichip-egan.ls
+    903 cd-ichip-egan.ls # After optional removal of initial headers
+
+#### Convert EGAN identifiers to Sanger sample IDs
+
+    $ python egan_map.py cd-ichip-egan.ls seq_egan_ichip_maps.txt > cd-ichip-samples.ls
+    $ wc -l cd-ichip-samples.ls
+    903 cd-ichip-samples.ls
+
+### Check failure rate and output fail file
+
+    $ python fail_check.py crohns-uc-table-a.2013dec25.manual_qc_update.txt cd-ichip-samples.ls -f cd-ichip-samples-with-fail.ls
+    Total Samples  : 903
+    Partial Samples: 229
+    Failed Samples : 5
+
+    Total Lanelets : 2846
+    Failed Lanelets: 354
+
+## Filter selected BAMs by inclusion in iCHIP study
+
+    $ sed 's/\..*$//' crohns.samples.sorted.txt > crohns.samples.sorted.name-only.txt
+    $ sort -u cd-ichip-samples.ls > cd-ichip-samples-sorted.ls
+    $ comm -12 crohns.samples.sorted.name-only.txt cd-ichip-samples-sorted.ls > crohns-ichip-samples.ls
+    $ wc -l crohns-ichip-samples.ls
+    903 crohns-ichip-samples.ls # All there!
+
 ## Query iRODS for chosen samples
 
 #### Acquire kerberos token
