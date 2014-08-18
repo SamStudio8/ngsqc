@@ -6,6 +6,7 @@ def plot_tree(pdf_filename, clf):
         sys.exit(1)
 
     from sklearn.externals.six import StringIO
+    from sklearn.tree import export_graphviz
 
     dot_data = StringIO()
     export_graphviz(clf, out_file=dot_data)
