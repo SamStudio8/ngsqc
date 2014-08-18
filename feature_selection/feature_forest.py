@@ -19,6 +19,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.tree import DecisionTreeClassifier
 
 from problem_def import CLASSES, NO_VARIANCE, RAW_COUNTS
+from util import plot_tree
 
 DATA_DIR = "/store/sanger/ngsqc/bamcheck/bamcheck_2013dec25_ratios_out/"
 TARGET_PATH = "/store/sanger/ngsqc/bamcheck/crohns-uc-table-a.2013dec25.manual_qc_update.txt"
@@ -146,3 +147,4 @@ param_index_list = np.where(parameter_union > 0)[0]
 clf_t.fit(X_train[:, param_index_list], y_train)
 print "[TREE] CV %.2f" % clf_t.score(X_test[:, param_index_list], y_test)
 
+plot_tree("plots/final_tree.pdf", clf)
