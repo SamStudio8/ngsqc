@@ -147,4 +147,4 @@ param_index_list = np.where(parameter_union > 0)[0]
 clf_t.fit(X_train[:, param_index_list], y_train)
 print "[TREE] CV %.2f" % clf_t.score(X_test[:, param_index_list], y_test)
 
-plot_tree("plots/final_tree.pdf", clf)
+plot_tree("plots/final_tree.pdf", clf_t)
