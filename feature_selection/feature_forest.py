@@ -63,6 +63,8 @@ statplexer = setup()
 all_parameters = statplexer.exclude_parameters(NO_VARIANCE + RAW_COUNTS)
 data, target, levels = statplexer.get_data_by_target(all_parameters, USE_TARGETS)
 
+data.multiply_by_label(100, "error-rate")
+
 print "[DATA] %d samples" % len(data)
 print "[DATA] %s levels" % str(levels)
 print "[DATA] Samples by Level %s" % sorted(statplexer.count_targets_by_class(target).items())
@@ -141,10 +143,13 @@ print "[    ] Sorted on Average Importance (µImp)."
 # Fit and score a single decision tree using all available training data and
 # the union of all previously forest selected parameters and validate against
 # the withheld data set.
-clf_t = DecisionTreeClassifier()
+clf_t = DecisionTreeClassifier(criterion="entropy", min_samples_split=25, min_samples_leaf=10)
 print "\n[TREE] Fit parameter union tree"
 param_index_list = np.where(parameter_union > 0)[0]
 clf_t.fit(X_train[:, param_index_list], y_train)
 print "[TREE] CV %.2f" % clf_t.score(X_test[:, param_index_list], y_test)
 
-plot_tree("plots/final_tree.pdf", clf_t)
+parameter_names = []
+for i in param_index_list:
+    parameter_names.append(all_parameters[i])
+plot_tree("plots/final_tree.pdf", clf_t, parameter_names)
