@@ -18,7 +18,7 @@ from sklearn.cross_validation import StratifiedKFold, StratifiedShuffleSplit
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.tree import DecisionTreeClassifier
 
-from problem_def import CLASSES, NO_VARIANCE, RAW_COUNTS
+from data_munging import load_data
 from util import plot_tree
 
 DATA_DIR = "/store/sanger/ngsqc/bamcheck/bamcheck_2013dec25_ratios_out/"

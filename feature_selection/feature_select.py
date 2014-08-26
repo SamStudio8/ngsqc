@@ -15,7 +15,7 @@ from frontier.IO.AQCReader import AQCReader
 from sklearn.cross_validation import StratifiedKFold, StratifiedShuffleSplit
 from sklearn.tree import DecisionTreeClassifier
 
-from problem_def import CLASSES, NO_VARIANCE, RAW_COUNTS
+from data_munging.problem_def import CLASSES, NO_VARIANCE, RAW_COUNTS
 
 DATA_DIR = "/store/sanger/ngsqc/bamcheck/bamcheck_2013dec25_ratios_out-1000/"
 TARGET_PATH = "/store/sanger/ngsqc/bamcheck/crohns-uc-table-a.2013dec25.manual_qc_update.txt"
