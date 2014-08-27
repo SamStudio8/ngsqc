@@ -3,7 +3,7 @@ from frontier.IO.BamcheckReader import BamcheckReader
 from frontier.IO.AQCReader import AQCReader
 from problem_def import CLASSES, NO_VARIANCE, RAW_COUNTS
 
-DATA_DIR = "/store/sanger/ngsqc/bamcheck/bamcheck_2013dec25_ratios_out-50/"
+DATA_DIR = "/store/sanger/ngsqc/bamcheck/bamcheck_2013dec25_ratios_out/"
 TARGET_PATH = "/store/sanger/ngsqc/bamcheck/crohns-uc-table-a.2013dec25.manual_qc_update.txt"
 USE_TARGETS = [1,-1]
 
@@ -39,8 +39,7 @@ data = data.exclude([
     "quality-dropoff-rev-mean-runmed-decline-low-value",
 ])
 
-print data.get("percent-bases-mapped", None)
-print data.get("percent-reads-qc-fail", None)
-print data.get("quality-dropoff-fwd-mean-runmed-decline-range", None)
-print data.get("quality-dropoff-rev-mean-runmed-decline-range", None)
+print "[DATA] %d samples" % len(data)
+print "[DATA] %s levels" % str(levels)
+print "[DATA] Samples by Level %s" % sorted(statplexer.count_targets_by_class(target).items())
 

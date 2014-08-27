@@ -10,64 +10,18 @@ import sys
 
 import numpy as np
 
-from frontier import frontier
-from frontier.IO.BamcheckReader import BamcheckReader
-from frontier.IO.AQCReader import AQCReader
-
 from sklearn.cross_validation import StratifiedKFold, StratifiedShuffleSplit
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.tree import DecisionTreeClassifier
 
-from data_munging import load_data
+from data_munging.load_data import data, target, levels, all_parameters
 from util import plot_tree
 
-DATA_DIR = "/store/sanger/ngsqc/bamcheck/bamcheck_2013dec25_ratios_out/"
-TARGET_PATH = "/store/sanger/ngsqc/bamcheck/crohns-uc-table-a.2013dec25.manual_qc_update.txt"
 NUM_FOLDS = 10
 PROP_VALIDATION = 0.1 #10%
 
 NUM_TREES = 500
 NUM_PARAMETERS = 10
-USE_TARGETS = [1,-1]
-
-def validate_data_set(data_set):
-    #raise Exception("%s is not a valid option for data_set" % data_set)
-    return True
-
-def validate_param_set(parameter_set):
-    #raise Exception("%s is not a valid option for parameter_set" % parameter_set)
-    return True
-
-def setup():
-    try:
-        validate_data_set(None)
-        validate_param_set(None)
-    except Exception, e:
-        print e
-        sys.exit(1)
-
-    statplexer = frontier.Statplexer(
-        DATA_DIR,
-        TARGET_PATH,
-        CLASSES,
-        BamcheckReader,
-        AQCReader
-    )
-
-    return statplexer
-
-def iterate():
-    pass
-
-statplexer = setup()
-all_parameters = statplexer.exclude_parameters(NO_VARIANCE + RAW_COUNTS)
-data, target, levels = statplexer.get_data_by_target(all_parameters, USE_TARGETS)
-
-data.multiply_by_label(100, "error-rate")
-
-print "[DATA] %d samples" % len(data)
-print "[DATA] %s levels" % str(levels)
-print "[DATA] Samples by Level %s" % sorted(statplexer.count_targets_by_class(target).items())
 
 # Withhold some proportion of the data set for validation later (stratify)
 sss = StratifiedShuffleSplit(target, n_iter=1, test_size=PROP_VALIDATION)
@@ -152,4 +106,4 @@ print "[TREE] CV %.2f" % clf_t.score(X_test[:, param_index_list], y_test)
 parameter_names = []
 for i in param_index_list:
     parameter_names.append(all_parameters[i])
-plot_tree("plots/final_tree.pdf", clf_t, parameter_names)
+plot_tree("feature_selection/plots/final_tree.pdf", clf_t, parameter_names)
