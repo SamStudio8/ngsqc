@@ -15,16 +15,19 @@ statplexer = frontier.Statplexer(
     AQCReader
 )
 
-
 all_parameters = statplexer.list_parameters()
 data, target, levels = statplexer.get_data_by_target(all_parameters, USE_TARGETS)
 
 data = data.transform({
     "error-rate": lambda x, f, i: x*100,
     "percent-bases-mapped": lambda x,f,i: (f.get("bases-mapped-(cigar)", i) / f.get("total-length", i)) * 100.0,
-    "percent-reads-qc-fail": lambda x,f,i: (f.get("reads-MQ0", i) / f.get("raw-total-sequences", i)) * 100.0
+    "percent-reads-qc-fail": lambda x,f,i: (f.get("reads-MQ0", i) / f.get("raw-total-sequences", i)) * 100.0,
+    "quality-dropoff-fwd-mean-runmed-decline-range": lambda x,f,i: (f.get("quality-dropoff-fwd-mean-runmed-decline-high-value", i) - f.get("quality-dropoff-fwd-mean-runmed-decline-low-value", i)),
+    "quality-dropoff-rev-mean-runmed-decline-range": lambda x,f,i: (f.get("quality-dropoff-rev-mean-runmed-decline-high-value", i) - f.get("quality-dropoff-rev-mean-runmed-decline-low-value", i))
 }, add_unknown=True)
 
 print data.get("percent-bases-mapped", None)
 print data.get("percent-reads-qc-fail", None)
+print data.get("quality-dropoff-fwd-mean-runmed-decline-range", None)
+print data.get("quality-dropoff-rev-mean-runmed-decline-range", None)
 
