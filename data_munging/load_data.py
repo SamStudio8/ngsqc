@@ -31,6 +31,14 @@ data = data.transform({
         lambda x,f,i: (f.get("quality-dropoff-rev-mean-runmed-decline-high-value", i) - f.get("quality-dropoff-rev-mean-runmed-decline-low-value", i))
 }, add_unknown=True)
 
+data = data.exclude([
+    "quality-dropoff-fwd-mean-runmed-decline-high-value",
+    "quality-dropoff-fwd-mean-runmed-decline-low-value",
+
+    "quality-dropoff-rev-mean-runmed-decline-high-value",
+    "quality-dropoff-rev-mean-runmed-decline-low-value",
+])
+
 print data.get("percent-bases-mapped", None)
 print data.get("percent-reads-qc-fail", None)
 print data.get("quality-dropoff-fwd-mean-runmed-decline-range", None)
