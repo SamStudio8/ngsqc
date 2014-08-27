@@ -14,8 +14,11 @@ from sklearn.cross_validation import StratifiedKFold, StratifiedShuffleSplit
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.tree import DecisionTreeClassifier
 
-from data_munging.load_data import data, target, levels, all_parameters
+from data_munging.load_data import data, target, levels
 from util import plot_tree
+
+
+all_parameters = data.frontier_labels
 
 NUM_FOLDS = 10
 PROP_VALIDATION = 0.1 #10%
