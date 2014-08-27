@@ -4,135 +4,197 @@
 (see https://github.com/samtools/samtools/blob/master/stats.c for implementation)
 
 #### raw total sequences
-    ````stats->nreads_filtered+stats->nreads_1st+stats->nreads_2nd````
-    This appears to include all 1st and 2nd reads as well as all filtered reads. The source note indicates it is “not counting excluded seqs (and none of the below)” but I don’t know what that means. 
+
+    stats->nreads_filtered+stats->nreads_1st+stats->nreads_2nd
+
+This appears to include all 1st and 2nd reads as well as all filtered reads. The source note indicates it is “not counting excluded seqs (and none of the below)” but I don’t know what that means. 
 
 #### filtered sequences
-    ````stats->nreads_filtered````
-    Number of reads that are filtered
+
+    stats->nreads_filtered
+    
+Number of reads that are filtered
 
 #### sequences
-    ````stats->nreads_1st+stats->nreads_2nd````
-    Number of 1st and 2nd reads not counting filtered 
 
-#### is paired
+    stats->nreads_1st+stats->nreads_2nd
+    
+Number of 1st and 2nd reads not counting filtered 
+
+#### <strike>is paired</strike>
 
 #### is sorted
-    ````stats->is_sorted ? 1 : 0````
-    1 if the file is sorted, 0 otherwise?
+
+    stats->is_sorted ? 1 : 0
+    
+1 if the file is sorted, 0 otherwise
 
 #### 1st fragments
-    ````stats->nreads_1st````
-    Number of 1st fragments (e.g. forward reads in paired end reads)
+
+    stats->nreads_1st
+    
+Number of 1st fragments (e.g. forward reads in paired end reads)
 
 #### last fragments
-````stats->nreads_2nd````
-    Number of last fragments (e.g. reverse reads in paired end reads)
+
+    stats->nreads_2nd
+    
+Number of last fragments (e.g. reverse reads in paired end reads)
 
 #### reads mapped
-    ````stats->nreads_paired_and_mapped+stats->nreads_single_mapped````
-    Total number of mapped reads
+
+    stats->nreads_paired_and_mapped+stats->nreads_single_mapped
+    
+Total number of mapped reads
 
 #### reads mapped and paired
-    ````stats->nreads_paired_and_mapped````
-    Number of reads with paired-end flag  set and both mates mapped
+
+    stats->nreads_paired_and_mapped
+    
+Number of reads with paired-end flag  set and both mates mapped
 
 #### reads unmapped
-    ````stats->nreads_unmapped````
-    Total number of unmapped reads
+
+    stats->nreads_unmapped
+    
+Total number of unmapped reads
 
 #### reads properly paired
-    ````stats->nreads_properly_paired````
-    Number of reads with “proper-pair” bit set (e.g. they are mapped and paired in a way which makes sense
 
-#### reads unpaired
+    stats->nreads_properly_paired
+    
+Number of reads with “proper-pair” bit set (e.g. they are mapped and paired in a way which makes sense
+
+#### <strike>reads unpaired</strike>
     
 #### reads paired
-    ````stats->nreads_paired_tech````
-    Number of reads with “paired-end” flag set
+
+    stats->nreads_paired_tech
+    
+Number of reads with “paired-end” flag set
 
 #### reads duplicated
-    ````stats->nreads_dup````
-    Number of reads with PCR or optical duplicate flag set
+
+    stats->nreads_dup
+    
+Number of reads with PCR or optical duplicate flag set
 
 #### reads MQ0
-    ````stats->nreads_mq0````
-    Number of reads mapped with mapping quality zero
+
+    stats->nreads_mq0
+    
+Number of reads mapped with mapping quality zero
 
 #### reads QC failed
-    ````stats->nreads_QCfailed````
-    Number of reads flagged as QC failed
+
+    stats->nreads_QCfailed
+    
+Number of reads flagged as QC failed
 
 #### non-primary alignments
-    ````stats->nreads_secondary````
-    Number of reads which represent secondary alignments
+
+    stats->nreads_secondary
+    
+Number of reads which represent secondary alignments
 
 #### total length
-    ````stats->total_len````
-    Number of bases represented  by all reads (ignoring clipping)
+
+    stats->total_len
+    
+Number of bases represented  by all reads (ignoring clipping)
 
 #### bases mapped
-    ````stats->nbases_mapped````
-    Number of bases represented by all mapped reads (ignoring clipping)
+
+    stats->nbases_mapped
+    
+Number of bases represented by all mapped reads (ignoring clipping)
 
 #### bases mapped (cigar)
-    ````stats->nbases_mapped_cigar````
-    Number of bases represented according to CIGAR strings (Match and Inserted)
+
+    stats->nbases_mapped_cigar
+    
+Number of bases represented according to CIGAR strings (Match and Inserted)
 
 #### bases trimmed
-    ````stats->nbases_trimmed````
-    Number of bases trimmed
+
+    stats->nbases_trimmed
+    
+Number of bases trimmed
 
 #### bases duplicated
-    ````stats->total_len_dup````
-    Number of bases duplicated
+
+    stats->total_len_dup
+    
+Number of bases duplicated
 
 #### mismatches
-    ````stats->nmismatches````
-    Number of mismatches (according to NM fields)
+
+    stats->nmismatches
+    
+Number of mismatches (according to NM fields)
 
 #### error rate
-    ````stats->nbases_mapped_cigar ? (float)stats->nmismatches/stats->nbases_mapped_cigar : 0)````
-    Rate of mismatch bases per bases mapped
+
+    stats->nbases_mapped_cigar ? (float)stats->nmismatches/stats->nbases_mapped_cigar : 0)
+    
+Rate of mismatch bases per bases mapped
 
 #### average length
-````(stats->nreads_1st+stats->nreads_2nd)?stats->total_len/(stats->nreads_1st+stats->nreads_2nd) : 0````
-    Average read length
+
+    (stats->nreads_1st+stats->nreads_2nd)?stats->total_len/(stats->nreads_1st+stats->nreads_2nd) : 0
+    
+Average read length
 
 #### maximum length
-    ````stats->max_len````
-    Maximum read length
+
+    stats->max_len
+    
+Maximum read length
 
 #### average quality
-    ````stats->total_len?stats->sum_qual/stats->total_len:0````
-    Average base quality
+
+    stats->total_len?stats->sum_qual/stats->total_len:0
+    
+Average base quality
 
 #### insert size average
-    ````avg_isize````
-    Average insertion size
+
+    avg_isize
+    
+Average insertion size
 
 #### insert size standard deviation
-    ````sd_isize````
-    Standard deviation of insert size
+
+    sd_isize
+    
+Standard deviation of insert size
 
 #### inward oriented pairs
-    ````nisize_inward````
-    Number of pairs oriented inwards
+
+    nisize_inward
+    
+Number of pairs oriented inwards
 
 #### outward oriented pairs
-    ````nisize_outward````
-    Number of pairs oriented outwards
+
+    nisize_outward
+    
+Number of pairs oriented outwards
 
 #### pairs with other orientation
-    ````nisize_other````
-    Number of pairs with other (neither inwards nor outwards) orientation
+
+    nisize_other
+    
+Number of pairs with other (neither inwards nor outwards) orientation
 
 #### pairs on different chromosomes
-    ````stats->nreads_anomalous/2````
-    Number of pairs mapped to different chromosomes
+
+    stats->nreads_anomalous/2
+    
+Number of pairs mapped to different chromosomes
 
 
-
+
 ## bamcheckr
 
 ### [indel-peaks](https://github.com/wtsi-hgi/seq_autoqc/blob/master/bamcheckr/R/indel-peaks.r)
