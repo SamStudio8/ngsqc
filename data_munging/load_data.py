@@ -146,3 +146,4 @@ print "[DATA] %d samples" % len(data)
 print "[DATA] %s levels" % str(levels)
 print "[DATA] Samples by Level %s" % sorted(statplexer.count_targets_by_class(target).items())
 
+all_parameters = data.columns

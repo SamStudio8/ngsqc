@@ -14,11 +14,8 @@ from sklearn.cross_validation import StratifiedKFold, StratifiedShuffleSplit
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.tree import DecisionTreeClassifier
 
-from data_munging.load_data import data, target, levels
+from data_munging.load_data import data, target, levels, all_parameters
 from util import plot_tree
-
-
-all_parameters = data.frontier_labels
 
 NUM_FOLDS = 10
 PROP_VALIDATION = 0.1 #10%
@@ -29,7 +26,7 @@ NUM_PARAMETERS = 10
 # Withhold some proportion of the data set for validation later (stratify)
 sss = StratifiedShuffleSplit(target, n_iter=1, test_size=PROP_VALIDATION)
 for train_index, test_index in sss:
-    X_train, X_test = data[train_index], data[test_index]
+    X_train, X_test = data.iloc[train_index], data.iloc[test_index]
     y_train, y_test = target[train_index], target[test_index]
 
 # Initialise folds on remaining data and store indexes for use later
@@ -52,7 +49,7 @@ parameter_union = np.zeros(len(all_parameters), dtype=int)
 # single decision tree on that feature set.
 for n_fold, indexer in enumerate(fold_indexes):
     print "\n[FRST] Constructing Forest#%d" % (n_fold + 1)
-    Xf_train, Xf_test = X_train[indexer["train_index"]], X_train[indexer["test_index"]]
+    Xf_train, Xf_test = X_train.iloc[indexer["train_index"]], X_train.iloc[indexer["test_index"]]
     yf_train, yf_test = y_train[indexer["train_index"]], y_train[indexer["test_index"]]
 
     clf = RandomForestClassifier(n_estimators=NUM_TREES, random_state=0)
@@ -75,8 +72,8 @@ for n_fold, indexer in enumerate(fold_indexes):
     clf_t = DecisionTreeClassifier()
     print "[TREE] Fitting Tree#%d" % (n_fold + 1)
     param_index_list = np.where(param_mask > 0)[0]
-    clf_t.fit(Xf_train[:, param_index_list], yf_train)
-    tree_cv_scores[n_fold] = clf_t.score(Xf_test[:, param_index_list], yf_test)
+    clf_t.fit(Xf_train.iloc[:, param_index_list], yf_train)
+    tree_cv_scores[n_fold] = clf_t.score(Xf_test.iloc[:, param_index_list], yf_test)
     print "[TREE] CV %.2f" % tree_cv_scores[n_fold]
 
 print "\n[ENSM] Average Single Tree CV %.2f" % np.average(tree_cv_scores)
@@ -103,8 +100,8 @@ print "[    ] Sorted on Average Importance (µImp)."
 clf_t = DecisionTreeClassifier(criterion="entropy", min_samples_split=25, min_samples_leaf=10)
 print "\n[TREE] Fit parameter union tree"
 param_index_list = np.where(parameter_union > 0)[0]
-clf_t.fit(X_train[:, param_index_list], y_train)
-print "[TREE] CV %.2f" % clf_t.score(X_test[:, param_index_list], y_test)
+clf_t.fit(X_train.iloc[:, param_index_list], y_train)
+print "[TREE] CV %.2f" % clf_t.score(X_test.iloc[:, param_index_list], y_test)
 
 parameter_names = []
 for i in param_index_list:
