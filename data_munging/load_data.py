@@ -5,7 +5,7 @@ from frontier.IO.BamcheckReader import BamcheckReader
 from frontier.IO.AQCReader import AQCReader
 from problem_def import CLASSES
 
-DATA_DIR = "/store/sanger/ngsqc/bamcheck/bamcheck_2013dec25_ratios_out-50/"
+DATA_DIR = "/store/sanger/ngsqc/bamcheck/bamcheck_2013dec25_ratios_out/"
 TARGET_PATH = "/store/sanger/ngsqc/bamcheck/crohns-uc-table-a.2013dec25.manual_qc_update.txt"
 USE_TARGETS = [1,-1]
 
@@ -20,7 +20,6 @@ statplexer = frontier.Statplexer(
 all_parameters = statplexer.list_parameters()
 data, target, levels = statplexer.get_data_by_target(all_parameters, USE_TARGETS)
 
-# Check correct...
 data['error-rate'] *= 100
 data['duplicate-mapped-ratio'] = (data["reads-duplicated"] / data["reads-mapped"]) * 100
 data['percent-bases-mapped'] = (data["bases-mapped-(cigar)"] / data["total-length"]) * 100
