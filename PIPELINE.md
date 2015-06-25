@@ -56,6 +56,8 @@ NGSQC Pipeline
 
     Total Lanelets : 2846
     Failed Lanelets: 354
+    
+    Lanes in Fails : 870
 
 ## Filter selected BAMs by inclusion in iCHIP study
 
